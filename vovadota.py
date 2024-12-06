@@ -9,8 +9,8 @@ BOT_TOKEN = "7552772723:AAFRE4eP7wD9zXDpJ7vRZqAzXX60pab4imI"
 
 # Заданные URL для разных пользователей
 DOTA_PROFILE_URLS = {
-    "vova": "https://ru.dotabuff.com/players/853246304",  # URL профиля Вовы
-    "denis": "https://ru.dotabuff.com/players/120268281",  # URL профиля Дениса (пример)
+    "vova": "https://ru.dotabuff.com/players/853246304",  
+    "denis": "https://ru.dotabuff.com/players/120268281", 
     "robert": "https://ru.dotabuff.com/players/223768611",
     "gena": "https://ru.dotabuff.com/players/248595717",
     "anya":"https://ru.dotabuff.com/players/431947539",
@@ -18,8 +18,8 @@ DOTA_PROFILE_URLS = {
 
 
 
-    "вова": "https://ru.dotabuff.com/players/853246304",  # URL профиля Вовы
-    "денис": "https://ru.dotabuff.com/players/120268281",  # URL профиля Дениса (пример)
+    "вова": "https://ru.dotabuff.com/players/853246304", 
+    "денис": "https://ru.dotabuff.com/players/120268281", 
     "роберт": "https://ru.dotabuff.com/players/223768611",
     "гена": "https://ru.dotabuff.com/players/248595717",
     "аня":"https://ru.dotabuff.com/players/431947539",
@@ -35,7 +35,7 @@ DOTA_PROFILE_URLS = {
     "skiter":"https://ru.dotabuff.com/esports/players/100058342-skiter",
     "iltw":"https://ru.dotabuff.com/players/113995822",
     "andreyimersion":"https://ru.dotabuff.com/players/86853590"
-    # Добавьте другие URL по необходимости
+
 }
 
 async def fetch_last_game_time(DOTA_PROFILE_URL):
