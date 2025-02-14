@@ -3,14 +3,17 @@ from bs4 import BeautifulSoup
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 from datetime import datetime, timezone
+import aiohttp
+
+
 
 # Вставьте ваш токен и Telegram API ID/Hash
 BOT_TOKEN = "7552772723:AAFRE4eP7wD9zXDpJ7vRZqAzXX60pab4imI"
-
+PROXY = "http://proxy.server:3128"
 # Заданные URL для разных пользователей
 DOTA_PROFILE_URLS = {
-    "vova": "https://ru.dotabuff.com/players/853246304",  
-    "denis": "https://ru.dotabuff.com/players/120268281", 
+    "vova": "https://ru.dotabuff.com/players/853246304",
+    "denis": "https://ru.dotabuff.com/players/120268281",
     "robert": "https://ru.dotabuff.com/players/223768611",
     "gena": "https://ru.dotabuff.com/players/248595717",
     "anya":"https://ru.dotabuff.com/players/431947539",
@@ -18,8 +21,8 @@ DOTA_PROFILE_URLS = {
 
 
 
-    "вова": "https://ru.dotabuff.com/players/853246304", 
-    "денис": "https://ru.dotabuff.com/players/120268281", 
+    "вова": "https://ru.dotabuff.com/players/853246304",
+    "денис": "https://ru.dotabuff.com/players/120268281",
     "роберт": "https://ru.dotabuff.com/players/223768611",
     "гена": "https://ru.dotabuff.com/players/248595717",
     "аня":"https://ru.dotabuff.com/players/431947539",
@@ -35,7 +38,7 @@ DOTA_PROFILE_URLS = {
     "skiter":"https://ru.dotabuff.com/esports/players/100058342-skiter",
     "iltw":"https://ru.dotabuff.com/players/113995822",
     "andreyimersion":"https://ru.dotabuff.com/players/86853590"
-
+    # Добавьте другие URL по необходимости
 }
 
 async def fetch_last_game_time(DOTA_PROFILE_URL):
@@ -67,16 +70,16 @@ async def update_status_vova(update: Update, context: ContextTypes.DEFAULT_TYPE)
     """Команда для получения статуса Вовы."""
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["vova"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Вова последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -87,16 +90,16 @@ async def update_status_vova(update: Update, context: ContextTypes.DEFAULT_TYPE)
 async def update_status_robert(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["robert"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Роберт последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -108,16 +111,16 @@ async def update_status_denis(update: Update, context: ContextTypes.DEFAULT_TYPE
     """Команда для получения статуса Дениса."""
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["denis"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Денис последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -130,16 +133,16 @@ async def update_status_gena(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["gena"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Гена последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -153,16 +156,16 @@ async def update_status_anya(update: Update, context: ContextTypes.DEFAULT_TYPE)
 
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["anya"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Аня последний раз играла в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -174,16 +177,16 @@ async def update_status_yarik(update: Update, context: ContextTypes.DEFAULT_TYPE
 
     try:
         DOTA_PROFILE_URL = DOTA_PROFILE_URLS["yarik"]
-        
+
         # Получаем дату последней игры
         last_game_time = await fetch_last_game_time(DOTA_PROFILE_URL)
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"Ярик последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -210,10 +213,10 @@ async def update_status(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not last_game_time:
             await update.message.reply_text("Не удалось получить информацию с Dotabuff.")
             return
-        
+
         # Рассчитываем разницу времени
         time_since_last_game = await calculate_time_difference(last_game_time)
-        
+
         # Отправляем статус
         status_text = f"{profile_key.capitalize()} последний раз играл в доту {time_since_last_game}"
         await update.message.reply_text(status_text)
@@ -232,7 +235,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     """Запуск бота."""
+
     application = Application.builder().token(BOT_TOKEN).build()
+
+
+
 
     # Обработчики команд для различных пользователей
     application.add_handler(CommandHandler("start", start))
@@ -243,8 +250,7 @@ def main():
     application.add_handler(CommandHandler("updateanya", update_status_anya))
     application.add_handler(CommandHandler("updateyarik", update_status_yarik))
     application.add_handler(CommandHandler("update", update_status))
-    
-    # application.add_handler(CommandHandler("updateOther", update_status_other))
+
 
     application.run_polling()
 
